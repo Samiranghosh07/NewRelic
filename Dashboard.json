@@ -1,0 +1,1062 @@
+{
+  "name": "Infrastructure Dashboard",
+  "description": null,
+  "permissions": "PUBLIC_READ_WRITE",
+  "pages": [
+    {
+      "guid": "NDM2MjU1NnxWSVp8REFTSEJPQVJEfDM5ODYzNDQ2",
+      "name": "Infrastructure Overview",
+      "description": null,
+      "widgets": [
+        {
+          "id": "440324640",
+          "title": null,
+          "layout": {
+            "column": 1,
+            "row": 1,
+            "width": 4,
+            "height": 6
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.markdown"
+          },
+          "rawConfiguration": {
+            "text": "#  infrastructure Overview Dashboard\nThis dashboard shows metrics and events from the infrastructure Service on the Full Stack Observability Platform (FSO) \n    \n[Dive deeper into Infrastructure Health and Performance](https://one.newrelic.com/launcher/nr1-core.explorer?pane=eyJuZXJkbGV0SWQiOiJucjEtY29yZS5saXN0aW5nIn0=&sidebars[0]=eyJuZXJkbGV0SWQiOiJucjEtY29yZS5jYXRlZ29yaWVzIiwicm9vdE5lcmRsZXRJZCI6Im5yMS1jb3JlLmxpc3RpbmcifQ)\n"
+          }
+        },
+        {
+          "id": "440324641",
+          "title": "Server CPU",
+          "layout": {
+            "column": 5,
+            "row": 1,
+            "width": 4,
+            "height": 6
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.bar"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT average(cpuPercent) FROM SystemSample since 3 hours ago facet hostname limit 400"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324642",
+          "title": "Network I/O",
+          "layout": {
+            "column": 9,
+            "row": 1,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT average(receiveBytesPerSecond), average(transmitBytesPerSecond) FROM NetworkSample SINCE 30 MINUTES AGO TIMESERIES AUTO"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324643",
+          "title": "Memory Usage",
+          "layout": {
+            "column": 9,
+            "row": 4,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT average(memoryUsedBytes) /1000000 AS 'Avg MB Used', average(memoryFreeBytes)/1000000 AS 'Avg MB Free' FROM SystemSample since 10 minutes ago"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324644",
+          "title": "System Load",
+          "layout": {
+            "column": 1,
+            "row": 7,
+            "width": 8,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT average(loadAverageOneMinute) , average(loadAverageFiveMinute), average(loadAverageFifteenMinute) FROM SystemSample since 3 hours ago TIMESERIES"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324645",
+          "title": "Disk Utilization",
+          "layout": {
+            "column": 9,
+            "row": 7,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.bullet"
+          },
+          "rawConfiguration": {
+            "limit": 100,
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT max(diskUsedPercent) as 'Percent Full' FROM StorageSample since 1 minute ago"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324646",
+          "title": "Disk I/O",
+          "layout": {
+            "column": 1,
+            "row": 10,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT average(readBytesPerSecond), average(writeBytesPerSecond) FROM StorageSample SINCE 30 MINUTES AGO TIMESERIES AUTO"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324647",
+          "title": "Critical Violations grouped by Hosts",
+          "layout": {
+            "column": 5,
+            "row": 10,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.bar"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT count(criticalViolationCount) from SystemSample facet hostname since 30 minutes ago"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324648",
+          "title": "What is the IPv6 Address of the Host",
+          "layout": {
+            "column": 9,
+            "row": 10,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.table"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT uniquecount(hostname) FROM NetworkSample SINCE 30 MINUTES AGO facet ipV6Address, hostname"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324649",
+          "title": "5 minute Load Average grouped by Host",
+          "layout": {
+            "column": 1,
+            "row": 13,
+            "width": 8,
+            "height": 6
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.bar"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT average(loadAverageFiveMinute) FROM SystemSample SINCE 30 MINUTES AGO facet hostname"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324650",
+          "title": "What is the IPv4 Address of the Host",
+          "layout": {
+            "column": 9,
+            "row": 13,
+            "width": 4,
+            "height": 6
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.table"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT uniquecount(hostname) FROM NetworkSample SINCE 30 MINUTES AGO facet ipV4Address, hostname"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324651",
+          "title": "Process Breakdown",
+          "layout": {
+            "column": 1,
+            "row": 19,
+            "width": 8,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.pie"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT count(*), average(threadCount), average(cpuPercent), average(cpuSystemPercent) FROM ProcessSample FACET commandName SINCE 1 hour ago"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324652",
+          "title": "Top 5 Network Transmitters Timeseries",
+          "layout": {
+            "column": 9,
+            "row": 19,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT average(transmitBytesPerSecond) from NetworkSample FACET hostname LIMIT 5 timeseries"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324653",
+          "title": "MB/sec transmitted grouped by Hostname",
+          "layout": {
+            "column": 1,
+            "row": 22,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.bar"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT average(transmitBytesPerSecond)/1024/1024 as 'MB/Sec transmitted' FROM NetworkSample SINCE 30 MINUTES AGO facet hostname"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324654",
+          "title": "Top 5 CPU Average",
+          "layout": {
+            "column": 5,
+            "row": 22,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.bar"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "select average(cpuPercent) from SystemSample facet hostname limit 5"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324655",
+          "title": "Server System Percent",
+          "layout": {
+            "column": 9,
+            "row": 22,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.bar"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT average(cpuSystemPercent) FROM SystemSample since 3 hours ago facet hostname limit 400"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324656",
+          "title": "Received Packets",
+          "layout": {
+            "column": 1,
+            "row": 25,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT count(receivePacketsPerSecond) as 'Packets Per Second' FROM NetworkSample SINCE 1 hour AGO compare with 1 hour ago"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324657",
+          "title": "Top 5 Disk Consumers Timeseries",
+          "layout": {
+            "column": 5,
+            "row": 25,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "select average(diskUsedPercent) from StorageSample facet hostname limit 5 TIMESERIES"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324658",
+          "title": "Infrastructure Events by Hosts",
+          "layout": {
+            "column": 9,
+            "row": 25,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.bar"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT count(*) FROM InfrastructureEvent,StorageSample,SystemSample FACET hostname SINCE 1 month ago LIMIT 25"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324659",
+          "title": "Top 5 Memory Utilization",
+          "layout": {
+            "column": 1,
+            "row": 28,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.table"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "select 100 * average(memoryUsedBytes) / (average(memoryFreeBytes) + average(memoryUsedBytes)) as PctUsed from SystemSample facet hostname limit 5"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324660",
+          "title": "Top 5 CPU Timeseries",
+          "layout": {
+            "column": 5,
+            "row": 28,
+            "width": 8,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "select average(cpuPercent) from SystemSample facet hostname limit 5 timeseries 5 minutes"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "guid": "NDM2MjU1NnxWSVp8REFTSEJPQVJEfDM5ODYzNDQ3",
+      "name": "Health of Hosts",
+      "description": null,
+      "widgets": [
+        {
+          "id": "440324661",
+          "title": "Host Names",
+          "layout": {
+            "column": 1,
+            "row": 1,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.table"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT average(cpuPercent), average(memoryUsedBytes / memoryTotalBytes) * 100 AS 'Memory Used Percent' FROM SystemSample FACET hostname SINCE 5 minutes ago"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324662",
+          "title": "CPU Usage",
+          "layout": {
+            "column": 5,
+            "row": 1,
+            "width": 8,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT average(cpuSystemPercent), average(cpuIOWaitPercent), average(cpuUserPercent), average(cpuStealPercent) from SystemSample SINCE 60 minutes ago    TIMESERIES"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324663",
+          "title": "CPU Load",
+          "layout": {
+            "column": 1,
+            "row": 4,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT average(loadAverageOneMinute), average(loadAverageFiveMinute), average(loadAverageFifteenMinute) from SystemSample SINCE 60 minutes ago    TIMESERIES"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324664",
+          "title": "Physical Memory",
+          "layout": {
+            "column": 5,
+            "row": 4,
+            "width": 8,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT average(memoryUsedBytes / memoryTotalBytes * 100) AS 'Memory Used Percent', average(memoryFreeBytes / memoryTotalBytes * 100) AS 'Memory Free Percent' FROM SystemSample SINCE 60 minutes ago TIMESERIES"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324665",
+          "title": "Disk Total I/O Utilization",
+          "layout": {
+            "column": 1,
+            "row": 7,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.area"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT average(totalUtilizationPercent) FROM StorageSample TIMESERIES FACET `entityAndMountPoint` LIMIT 100 SINCE 60 minutes ago"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324666",
+          "title": "Network I/O (MB/s)",
+          "layout": {
+            "column": 5,
+            "row": 7,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT average(receiveBytesPerSecond / 1024) AS 'Received', average(transmitBytesPerSecond / 1024) AS 'Transmitted' FROM NetworkSample SINCE 60 minutes ago TIMESERIES"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324667",
+          "title": "Processes",
+          "layout": {
+            "column": 9,
+            "row": 7,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.table"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT uniqueCount(processId), latest(userName), average(cpuPercent) AS 'CPU Percent', average(memoryResidentSizeBytes) / 1024000 AS 'Memory (MB)' FROM ProcessSample FACET processDisplayName SINCE 1 hour ago"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "guid": "NDM2MjU1NnxWSVp8REFTSEJPQVJEfDM5ODYzNDQ4",
+      "name": "Infrastructure Metrics",
+      "description": null,
+      "widgets": [
+        {
+          "id": "440324668",
+          "title": "System Metrics",
+          "layout": {
+            "column": 1,
+            "row": 1,
+            "width": 4,
+            "height": 6
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.table"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT average(cpuPercent), ((average(memoryUsedBytes)/1024)/1024)/1024 as 'Avg Memory Used in GB' FROM SystemSample FACET hostname SINCE 5 minutes ago limit 50"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324669",
+          "title": "CPU Usage",
+          "layout": {
+            "column": 5,
+            "row": 1,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.bullet"
+          },
+          "rawConfiguration": {
+            "limit": 100,
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT average(cpuPercent) as '% CPU Usage' FROM SystemSample SINCE 30 minutes ago"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324670",
+          "title": "Disk Usage",
+          "layout": {
+            "column": 9,
+            "row": 1,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.bullet"
+          },
+          "rawConfiguration": {
+            "limit": 100,
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT average(diskUsedPercent) as '% Disk Used' FROM StorageSample SINCE 30 minutes ago"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324671",
+          "title": "Memory Usage",
+          "layout": {
+            "column": 5,
+            "row": 4,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.bullet"
+          },
+          "rawConfiguration": {
+            "limit": 100,
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT average(memoryUsedBytes/memoryTotalBytes)*100 as '% Memory Used' FROM SystemSample SINCE 30 minutes ago"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324672",
+          "title": "System Metrics",
+          "layout": {
+            "column": 9,
+            "row": 4,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT average(cpuPercent) as '% CPU Usage', average(loadAverageOneMinute) as '1 min Load', average(loadAverageFiveMinute) as '5 min Load', average(loadAverageFifteenMinute) as '15 min Load', average(memoryUsedBytes/memoryTotalBytes)*100 as '% Memory Used', average(memoryFreeBytes/memoryTotalBytes)*100 as '% Memory Free' FROM SystemSample SINCE 1 day ago"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324673",
+          "title": "Process Metrics",
+          "layout": {
+            "column": 1,
+            "row": 7,
+            "width": 8,
+            "height": 9
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.table"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT processDisplayName, cpuPercent, threadCount, userName, `nr.apmApplicationNames` as 'App Name' FROM ProcessSample since 5 minutes ago until 1 minute ago limit 100"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324674",
+          "title": "Disk Metrics",
+          "layout": {
+            "column": 9,
+            "row": 7,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT average(diskUsedPercent) as '% Disk Used', average(diskFreePercent) as '% Free Disk', max(diskUsedPercent) as '% Max Disk Used', uniqueCount(mountPoint) as 'Mount Points' FROM StorageSample SINCE 1 day ago"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324675",
+          "title": "Network Metrics",
+          "layout": {
+            "column": 9,
+            "row": 10,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT average(receivePacketsPerSecond), average(transmitPacketsPerSecond), average(receiveDroppedPerSecond), average(transmitDroppedPerSecond), average(receiveErrorsPerSecond), average(transmitErrorsPerSecond) FROM NetworkSample since 1 day ago"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324676",
+          "title": "Disk Usage %",
+          "layout": {
+            "column": 9,
+            "row": 13,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.table"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT average(diskUsedPercent) as '% Disk Used', average(diskFreePercent) as '% Disk Free' FROM StorageSample SINCE 30 minutes ago FACET device"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324677",
+          "title": "Process List",
+          "layout": {
+            "column": 1,
+            "row": 19,
+            "width": 12,
+            "height": 6
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.table"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT max(cpuPercent), max(ioReadBytesPerSecond), max(ioReadCountPerSecond), max(ioWriteBytesPerSecond), max(ioWriteCountPerSecond), max(threadCount), max(fileDescriptorCount) FROM ProcessSample FACET commandName since 2 minutes ago limit 15"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324678",
+          "title": "Monthly CPU Usage",
+          "layout": {
+            "column": 1,
+            "row": 25,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT 50 as 'Threshold', average(cpuPercent) as '% CPU Usage' FROM SystemSample SINCE 1 month ago TIMESERIES"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324679",
+          "title": "Monthly Disk Usage",
+          "layout": {
+            "column": 5,
+            "row": 25,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT 50 as 'Threshold', average(diskUsedPercent) as '% Disk Used' FROM StorageSample SINCE 1 month ago TIMESERIES"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324680",
+          "title": "Monthly Memory Usage",
+          "layout": {
+            "column": 9,
+            "row": 25,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.line"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT 50 as 'Threshold', average(memoryUsedBytes/memoryTotalBytes)*100 as '% Memory Used' FROM SystemSample SINCE 1 month ago TIMESERIES"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324681",
+          "title": "Daily CPU Usage % | Host Count",
+          "layout": {
+            "column": 1,
+            "row": 34,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.table"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT average(cpuPercent), uniquecount(entityName) as 'Host Count' FROM SystemSample FACET instanceType SINCE 1 day ago limit 25 where cpuPercent < 20"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324682",
+          "title": "Weekly CPU Usage % | Host Count",
+          "layout": {
+            "column": 5,
+            "row": 34,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.table"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT average(cpuPercent), uniquecount(entityName) as 'Host Count' FROM SystemSample FACET instanceType SINCE 1 week ago limit 25 where cpuPercent < 20"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324683",
+          "title": "Monthly CPU Usage % | Host Count",
+          "layout": {
+            "column": 9,
+            "row": 34,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.table"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT average(cpuPercent), uniquecount(entityName) as 'Host Count' FROM SystemSample FACET instanceType SINCE 1 month ago limit 25 where cpuPercent < 20"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324684",
+          "title": "Avg CPU Usage - DoD",
+          "layout": {
+            "column": 1,
+            "row": 46,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT average(cpuPercent) FROM SystemSample SINCE 1 day ago COMPARE WITH 1 day ago"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324685",
+          "title": "Avg CPU Usage - WoW",
+          "layout": {
+            "column": 5,
+            "row": 46,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT average(cpuPercent) FROM SystemSample SINCE 1 week ago COMPARE WITH 1 week ago"
+              }
+            ]
+          }
+        },
+        {
+          "id": "440324686",
+          "title": "Avg CPU Usage - MoM",
+          "layout": {
+            "column": 9,
+            "row": 46,
+            "width": 4,
+            "height": 3
+          },
+          "linkedEntityGuids": null,
+          "visualization": {
+            "id": "viz.billboard"
+          },
+          "rawConfiguration": {
+            "nrqlQueries": [
+              {
+                "accountId": 4362556,
+                "query": "SELECT average(cpuPercent) FROM SystemSample SINCE 1 month ago COMPARE WITH 1 month ago"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "variables": []
+}

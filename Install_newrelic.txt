@@ -1,0 +1,58 @@
+===================================================
+APM Configuration on NewRelic Server for Ubuntu 24:
+===================================================
+
+===========================================
+Step1: Install Java, Tomcat, Configuration 
+===========================================
+
+sudo apt-get update -y && apt-get upgrade -y
+sudo apt-get install openjdk-11-jdk -y
+sudo apt install openjdk-11-jdk-headless -y
+
+java --version
+
+cd /opt
+sudo wget https://archive.apache.org/dist/tomcat/tomcat-10/v10.1.39/bin/apache-tomcat-10.1.39.zip
+apt install unzip -y
+unzip apache-tomcat-10.1.39.zip
+cd apache-tomcat-10.1.39/bin/
+chmod -R 755 .
+./startup.sh
+ps -eaf | grep tomcat
+
+cd /opt/apache-tomcat-10/webapp/example/
+find . -name context.xml
+nano ./META-INF/context.xml
+
+disable <valve classname>
+
+cd /opt/apache-tomcat-10/webapp/conf/
+nano tomcat-users.xml 
+
+
+  <role rolename="admin-gui"/>
+  <role rolename="manager-gui"/>
+  <user name="tomcat" password="tomcat" roles="admin-gui,manager-gui"/>
+
+
+cd apache-tomcat-10.1.39/bin/
+./shutdown.sh 
+./startup.sh 
+
+cd /opt/apache-tomcat-10/webapp/documentation/
+find . -name context.xml
+nano ./META-INF/context.xml
+
+disable <valve classname>
+
+cd /opt/apache-tomcat-10/webapp/server/
+find . -name context.xml
+nano ./META-INF/context.xml
+
+disable <valve classname>
+
+ss -tulnp | grep 8080
+
+
+
