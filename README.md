@@ -160,7 +160,6 @@ select count(entity.guid) from TransactionError
 select uniqueCount(entity.guid) from TransactionError
 
 select latest(entity.guid) from TransactionError
-```
 
 ---
 
