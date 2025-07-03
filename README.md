@@ -132,7 +132,7 @@ SELECT count(*) FROM TransactionError WHERE appName = 'MyApp' AND errorType IS N
 * Add charts using NRQL
 * Example widget:
 
-  ```sql
+```sql
 select average(duration) FROM Transaction WHERE appName='MyApp'
   
 select average(newrelic.logs.batchIndex) FROM Log
@@ -160,7 +160,7 @@ select count(entity.guid) from TransactionError
 select uniqueCount(entity.guid) from TransactionError
 
 select latest(entity.guid) from TransactionError
-
+```
 ---
 
 ## ✅ Summary Checklist
